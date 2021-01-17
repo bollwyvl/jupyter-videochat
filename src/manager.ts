@@ -4,6 +4,8 @@ import { VDomModel } from '@jupyterlab/apputils';
 import { Signal } from '@lumino/signaling';
 import { PromiseDelegate } from '@lumino/coreutils';
 
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
+
 import { IVideoChatManager, DEFAULT_JS_API_URL, CSS } from './tokens';
 import { Room, VideoChatConfig, IMeet, IMeetConstructor } from './types';
 
@@ -16,6 +18,7 @@ export class VideoChatManager extends VDomModel implements IVideoChatManager {
   private _config: VideoChatConfig;
   private _meet: IMeet;
   private _meetChanged: Signal<VideoChatManager, void>;
+  private _settings: ISettingRegistry.ISettings;
 
   constructor(options: VideoChatManager.IOptions) {
     super();
@@ -69,6 +72,15 @@ export class VideoChatManager extends VDomModel implements IVideoChatManager {
   /** a signal that emits when the current meet changes */
   get meetChanged(): Signal<IVideoChatManager, void> {
     return this._meetChanged;
+  }
+
+  get settings(): ISettingRegistry.ISettings {
+    return this._settings;
+  }
+
+  set settings(settings: ISettingRegistry.ISettings) {
+    this._settings = settings;
+    this.stateChanged.emit(void 0);
   }
 
   /** handle updating configuration and rooms from the server */
