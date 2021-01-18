@@ -9,7 +9,7 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 import { IVideoChatManager, DEFAULT_JS_API_URL, CSS } from './tokens';
 import { Room, VideoChatConfig, IMeet, IMeetConstructor } from './types';
 
-/** A manager that can add, join, or create Jitsi rooms
+/** A manager that can add, join, or create Video Chat rooms
  */
 export class VideoChatManager extends VDomModel implements IVideoChatManager {
   private _rooms: Room[] = [];
@@ -79,9 +79,19 @@ export class VideoChatManager extends VDomModel implements IVideoChatManager {
   }
 
   set settings(settings: ISettingRegistry.ISettings) {
+    if (this._settings) {
+      this._settings.changed.disconnect(this.onSettingsChanged, this);
+    }
     this._settings = settings;
+    if (this._settings) {
+      this._settings.changed.connect(this.onSettingsChanged, this);
+    }
     this.stateChanged.emit(void 0);
   }
+
+  onSettingsChanged = (): void => {
+    this.stateChanged.emit(void 0);
+  };
 
   /** handle updating configuration and rooms from the server */
   initialize(): void {

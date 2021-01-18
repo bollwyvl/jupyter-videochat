@@ -6,13 +6,13 @@
   "type": "object",
   "properties": {
     "displayName": {
-      "title": "Your Display Name",
-      "description": "the name to show to other meeting participants",
+      "title": "My Display Name",
+      "description": "The name to show to other meeting participants",
       "type": "string"
     },
     "email": {
-      "title": "Your Email",
-      "description": "the email address to show to other meeting participants",
+      "title": "My Email",
+      "description": "The email address to show to other meeting participants. If this address is registered at gravatar.com, your custom icon will be shown",
       "type": "string"
     }
   }
